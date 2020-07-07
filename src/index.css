@@ -1,0 +1,95 @@
+/* html {
+    color: 'blue';
+} */
+
+/* .title-div {
+    text-align: 'center';
+    padding-left: 1%;
+} */
+
+.title {
+    font-size: 2em;
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
+
+}
+
+.desc {
+    font-size: 1em;
+    font-weight: 300;
+    font-family: "Courier New", Courier, monospace;
+    padding-left: 1%;
+    text-align: center;
+}
+
+.body {
+    width: auto;
+    height: auto;
+    background-color: lightcyan;
+    overflow:auto;
+}
+
+.pet-card {
+    width: 200px;
+    height: 200px;
+    padding: 1%;
+    border-radius: 10%;
+    
+}
+
+.page-number {
+    font-size: 1em;
+    font-weight: 300;
+    font-family: "Courier New", Courier, monospace;
+    padding-bottom: 1%;
+    padding-left: 1%;
+}
+
+.forward-btn { 
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 1%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    font-family: "Courier New", Courier, monospace;
+    border-radius: 5px;
+}
+
+.backward-btn { 
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 1%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    font-family: "Courier New", Courier, monospace;
+    border-radius: 5px;
+}
+
+.nav-btn {
+    padding-right: 1%;
+    padding-left: 1%;
+}
+
+.dog-div {
+    /* justify-content: center; */
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    text-align: center;
+    
+    
+
+}
+
+/* .page-div {
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    
+} */
