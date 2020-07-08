@@ -14,3 +14,11 @@ npm i && npm start
 ```
 
 The application will then launch in the browser. Enjoy!
+
+## Testing 
+
+While testing pure HTML and Vanilla JS is uncommon, Tyler Hawkins wrote an excellent [blog post](https://levelup.gitconnected.com/how-to-unit-test-html-and-vanilla-javascript-without-a-ui-framework-c4c89c9f5e56) detailing a method to do just that. This application features some basic unit tests that look for dom elements on the page. These tests can be run using the command: 
+
+```
+npm test
+```
