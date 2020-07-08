@@ -1,27 +1,3 @@
-/* html {
-    color: 'blue';
-} */
-
-/* .title-div {
-    text-align: 'center';
-    padding-left: 1%;
-} */
-
-.title {
-    font-size: 2em;
-    font-family: "Courier New", Courier, monospace;
-    text-align: center;
-
-}
-
-.desc {
-    font-size: 1em;
-    font-weight: 300;
-    font-family: "Courier New", Courier, monospace;
-    padding-left: 1%;
-    text-align: center;
-}
-
 .body {
     width: auto;
     height: auto;
@@ -29,67 +5,93 @@
     overflow:auto;
 }
 
-.pet-card {
-    width: 200px;
-    height: 200px;
-    padding: 1%;
-    border-radius: 10%;
-    
+.title {
+    font-size: 2em;
+    font-family: "Courier New", Courier, monospace;
+    text-align: center;
 }
 
-.page-number {
+.text {
     font-size: 1em;
     font-weight: 300;
     font-family: "Courier New", Courier, monospace;
+    text-align: center;
     padding-bottom: 1%;
-    padding-left: 1%;
-}
-
-.forward-btn { 
-    background-color: white;
-    border: none;
-    color: black;
-    padding: 1%;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1em;
-    font-family: "Courier New", Courier, monospace;
-    border-radius: 5px;
-}
-
-.backward-btn { 
-    background-color: white;
-    border: none;
-    color: black;
-    padding: 1%;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1em;
-    font-family: "Courier New", Courier, monospace;
-    border-radius: 5px;
-}
-
-.nav-btn {
-    padding-right: 1%;
-    padding-left: 1%;
 }
 
 .dog-div {
-    /* justify-content: center; */
     margin-left: auto;
     margin-right: auto;
     width: 80%;
     text-align: center;
-    
-    
-
 }
 
-/* .page-div {
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    
-} */
+.pet-card {
+    display: inline-flex;
+    padding: 1%;
+}
+
+.pet-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5%; 
+}
+
+.pet-img:hover {
+    cursor: pointer;
+}
+
+.modal {
+    border-style: none;
+    border-radius: 10px;
+    background-color: lightcyan;  
+}
+
+dialog::backdrop {
+    background: rgba(0,0,0,.30);
+}
+
+.full-img {
+    margin-top: 3%;
+    border-radius: 10px;
+    margin-left: 75px;
+    margin-bottom: 15px;
+    margin-right: 20px;
+}
+
+.btn {
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 1%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    font-family: "Courier New", Courier, monospace;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.nav-btn-div {
+    text-align: center;
+    padding-bottom: 2.5%;
+    padding-top: 2.5%; 
+}
+
+#backwards-btn {
+    margin-right: 1%;
+}
+
+.exit-btn-div {
+    float: right;
+    margin-right: 15px;
+}
+
+#exit-btn {
+    padding: 7px;
+}

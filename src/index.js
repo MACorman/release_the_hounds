@@ -1,148 +1,228 @@
+// DOMContentLoaded listener so JS isn't carried out until HTML fully loaded 
 window.addEventListener('DOMContentLoaded', (event) => {
-    console.log("dom successfully loaded")
 
+    // Defining pagination variables in parent scope for later
     let start = 0
     let end = 10
     let current_page = 1
     
+    // Defining body variable in parent scope for use throughout
     let body = document.querySelector('body')
     
-    pageTitle = () => {
-        let titleDiv = document.createElement('div')
-        titleDiv.className = 'title-div'
+    // Creating page title element 
+    createPageTitle = () => {
         let title = document.createElement('p')
         title.className = 'title'
         title.innerText = 'Release the (Grey)hounds!'
-        body.appendChild(titleDiv)
-        titleDiv.appendChild(title)
+        body.appendChild(title)
     }
-    pageTitle()
+    createPageTitle()
 
-    pageDesc = () => {
-        let desc = document.createElement('h4')
-        desc.className = 'desc'
-        desc.innerText = 'Welcome to the Italian Greyhound love fest. Show us your hounds.'
+    // Creating page description element
+    createPageDesc = () => {
+        let desc = document.createElement('p')
+        desc.className = 'text'
+        desc.innerText = 'Welcome to the Italian Greyhound love fest. Show us your lil hounds.'
         body.appendChild(desc)
     }
-    pageDesc()
+    createPageDesc()
     
+    // Creating a div that will act as a wrapper containing dog image div
     let pageDiv = document.createElement('div')
-    pageDiv.className = 'page-div'
-    body.appendChild(pageDiv)
+    createContainerDiv = () => {
+        pageDiv.className = 'page-div'
+        body.appendChild(pageDiv)
+    }
+    createContainerDiv()
     
+    // Create individual dog thumbnail card
     createPetCard = (url, dogDiv) => {
+        // Dog image wrapped in parent div for styling purposes
+        let petCard = document.createElement('div')
+        petCard.className = 'pet-card'
+        dogDiv.appendChild(petCard) 
+
         let petImg = document.createElement('img')
         petImg.src = url 
-        petImg.className = "pet-card"
-        dogDiv.appendChild(petImg) 
+        petImg.className = "pet-img"
+        petCard.appendChild(petImg)
     }
-    
+
+    // Fetch data from the Italian Greyhound endpoint of Dog CEO API
+    // Fetch returns first 100 results
     fetchPets = (start, end) => {
         fetch(`https://dog.ceo/api/breed/greyhound/italian/images`)
         .then(resp => resp.json())
         .then(data => {
-            console.log(data.message)
+            // Creating a div that will hold all dog thumbnail cards
+            // This div is the child of pageDiv wrapper
             let dogDiv = document.createElement('div')
             dogDiv.className = 'dog-div'
             pageDiv.appendChild(dogDiv)
+            // Depending on current page, mapping over subsection of 
+            // 10 results to create a thumbnail card of each result
             data.message.slice(start, end).map( url => createPetCard(url, dogDiv))  
         })
     }
     fetchPets(start, end)
-
-    let pageRendered = document.createElement('div')
-    pageRenderedDisplay = (current_page) => {
-        pageRendered.className = 'page-number'
-        pageRendered.innerText = `Page ${current_page}`
-        body.appendChild(pageRendered)
-    }
-    pageRenderedDisplay(current_page)
-
+    
+    // Function to go to next page
     paginateForward = () => {
-        backwardBtn.disabled = false
-        current_page = current_page + 1
-        start = start + 10
-        end = end + 10
-        pageDiv.innerHTML = ''
-        // body.removeChild(p)
-        
-        fetchPets(start, end)
-        pageRenderedDisplay(current_page)
-    }
-
-    paginateBackward = () => {
-        if (current_page > 1) {
+        // No more dog images are rendered past page 19
+        // Only able to navigate to next page if current page is less than 19
+        if(current_page < 19) {
+            // As now not on 1st page, backward button functionality is introduced
             backwardBtn.disabled = false
+            // Increment current page by 1
+            current_page = current_page + 1
+            // Start and end increased by 10 to grab next 10 dogs
+            start = start + 10
+            end = end + 10
+            // Clearing pageDiv wrapper of children
+            // New dogDiv with next 10 results will be new child node of pageDiv
+            pageDiv.innerHTML = ''
+            
+            // Fetch request for next 10 results
+            fetchPets(start, end)
+            // Render curent page number with new current page
+            pageNumber(current_page)
+
+        } else {
+            // Next page button disabled if on page 19
+            // Else would be able to click through to blank pages, rending no dog images
+            forwardBtn.disabled = true
+        }
+    }
+    
+    // Function to go to previous page
+    paginateBackward = () => {
+        // Only if current page in not the first page, can move to previous page
+        // Else we would be able to click through to negative page numbers
+        if (current_page > 1) {
+            // Enable previous page button
+            backwardBtn.disabled = false
+            // Decrement current page by 1
             current_page = current_page - 1
+            // Start and end decreased by 10 to grab previous 10 dogs
             start = start - 10
             end = end - 10
             pageDiv.innerHTML = ''
-            // body.removeChild(pageButton)
             
+            // Fetch previous 10 results & render current page number with new current page
             fetchPets(start, end)
-            pageRenderedDisplay(current_page)
+            pageNumber(current_page)
         } else {
+            // If current page is first page, previous page button disabled
             backwardBtn.disabled = true
         }
     }
 
+    // Creating a div to hold page forward and page backwards buttons
+    // Purely for styling purposes
+    let buttonDiv = document.createElement('div')
+    createNavBtnDiv = () => {
+        buttonDiv.className ='nav-btn-div'
+        body.appendChild(buttonDiv) 
+    }
+    createNavBtnDiv()
+
+    // Create previous page button
     let backwardBtn = document.createElement('button')
     createBackwardBtn = () => {
-        let buttonDiv = document.createElement('span')
-        buttonDiv.className ='nav-btn'
-        backwardBtn.className = "backward-btn"
-        backwardBtn.innerText = 'previous page'
+        backwardBtn.className = "btn"
+        backwardBtn.id = 'backwards-btn'
+        backwardBtn.dataset.name = 'backward-btn'
+        backwardBtn.innerText = 'Previous Page'
+        // Button is disabled by default
         backwardBtn.disabled = true
-        body.appendChild(buttonDiv) 
         buttonDiv.appendChild(backwardBtn)
     }
     createBackwardBtn()
     
+    // Create forward page button
     let forwardBtn = document.createElement('button')
     createForwardBtn = () => {
-        forwardBtn.className = "forward-btn"
-        forwardBtn.innerText = 'next page'
-        body.appendChild(forwardBtn)
+        forwardBtn.className = "btn"
+        forwardBtn.dataset.name = 'forward-btn'
+        forwardBtn.innerText = 'Next Page'
+        buttonDiv.appendChild(forwardBtn)
     }
     createForwardBtn()
 
-    const dialog = document.createElement('dialog');
-    openModal = (photo) => {
-        dialog.innerHTML = `
-            <button class='exit' >x</button>
-            <img src=${photo} />
-        `
-        // fix this ^^
-
+    // Create a little text element denoting current page number
+    let pageRendered = document.createElement('p')
+    pageNumber = (current_page) => {
+        pageRendered.className = 'text'
+        pageRendered.innerText = `Page ${current_page}`
+        body.appendChild(pageRendered)
+    }
+    pageNumber(current_page)
+    
+    // Create the modal holding full-size image of dog
+    let dialog = document.createElement('dialog');
+    createModal = (photo) => {
+        dialog.className = 'modal'
         document.body.appendChild(dialog);
 
+        // Create div to hold 'Done' button for styling
+        let modalDiv = document.createElement('div')
+        modalDiv.className = 'exit-btn-div'
+        dialog.appendChild(modalDiv)
+
+        // Create 'Done' button to exit out of modal
+        let exitBtn = document.createElement('button')
+        exitBtn.innerText = 'Done'
+        exitBtn.className = 'btn' 
+        exitBtn.id = 'exit-btn'
+        exitBtn.dataset.name = 'exit-btn'
+        modalDiv.appendChild(exitBtn)
+
+        let fullImg = document.createElement('img')
+        fullImg.className = 'full-img'
+        fullImg.src = photo
+        dialog.appendChild(fullImg)
+    }
+
+    // Function to create and open model of desired dog image
+    openModal = (photo) => {
+        createModal(photo)
         dialog.showModal();
     }
 
+    // Function to close modal on pressing 'Done' button
     closeModal = () => {
         dialog.close()
+        // Clearing inner HTML of modal or else multiple images are 
+        // appended to the modal on subsequent clicks
+        dialog.innerHTML = ''
     }
   
+    // Single event listener on body uses event delegation
     body.addEventListener('click', (event) => {
-        if(event.target.className === 'pet-card') {
-            console.log(event.target.src)
+        // On clicking thumbnail
+        if(event.target.className === 'pet-img') {
             let photo = event.target.src
             openModal(photo)
         }
-        if(event.target.className === 'forward-btn') {
+        // On clicking next page
+        if(event.target.dataset.name === 'forward-btn') {
             paginateForward()
 
         }
-        if(event.target.className === 'backward-btn') {
+        // On clicking previous page
+        if(event.target.dataset.name === 'backward-btn') {
             paginateBackward()
         }
-        if(event.target.className === 'exit') {
+        // On clicking 'Done' to exit modal
+        if(event.target.dataset.name === 'exit-btn') {
             closeModal()
         }
     })
 })
     
     
-    
-// data sets instead of directly putting in class names
-// previous page button still wonky
+ 
+
+
+// comments
+// readme 
