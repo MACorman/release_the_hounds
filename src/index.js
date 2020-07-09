@@ -1,4 +1,3 @@
-// DOMContentLoaded listener so JS isn't carried out until HTML fully loaded 
 window.addEventListener('DOMContentLoaded', (event) => {
 
     // Defining pagination variables in parent scope for later
@@ -49,7 +48,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     // Fetch data from the Italian Greyhound endpoint of Dog CEO API
-    // Fetch returns first 100 results
+    // https://dog.ceo/dog-api/
     fetchPets = (start, end) => {
         fetch(`https://dog.ceo/api/breed/greyhound/italian/images`)
         .then(resp => resp.json())
@@ -66,6 +65,48 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     fetchPets(start, end)
     
+    // Creating a div to hold page forward and page backwards buttons
+    // Purely for styling purposes
+    let buttonDiv = document.createElement('div')
+    createNavBtnDiv = () => {
+        buttonDiv.className ='nav-btn-div'
+        body.appendChild(buttonDiv) 
+    }
+    createNavBtnDiv()
+    
+    // Create previous page button
+    let backwardBtn = document.createElement('button')
+    createBackwardBtn = () => {
+        backwardBtn.className = "btn"
+        // This button has an id for styling purposes
+        backwardBtn.id = 'backwards-btn'
+        backwardBtn.dataset.name = 'backward-btn'
+        backwardBtn.innerText = 'Previous Page'
+        // Button is disabled by default
+        backwardBtn.disabled = true
+        buttonDiv.appendChild(backwardBtn)
+    }
+    createBackwardBtn()
+    
+    // Create forward page button
+    let forwardBtn = document.createElement('button')
+    createForwardBtn = () => {
+        forwardBtn.className = "btn"
+        forwardBtn.dataset.name = 'forward-btn'
+        forwardBtn.innerText = 'Next Page'
+        buttonDiv.appendChild(forwardBtn)
+    }
+    createForwardBtn()
+
+    // Create a little text element denoting current page number
+    let pageRendered = document.createElement('p')
+    pageNumber = (current_page) => {
+        pageRendered.className = 'text'
+        pageRendered.innerText = `Page ${current_page}`
+        body.appendChild(pageRendered)
+    }
+    pageNumber(current_page)
+
     // Function to go to next page
     paginateForward = () => {
         // No more dog images are rendered past page 19
@@ -96,7 +137,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     
     // Function to go to previous page
     paginateBackward = () => {
-        // Only if current page in not the first page, can move to previous page
+        // Only if current page in not the page 1, can move to previous page
         // Else we would be able to click through to negative page numbers
         if (current_page > 1) {
             // Enable previous page button
@@ -116,54 +157,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
             backwardBtn.disabled = true
         }
     }
-
-    // Creating a div to hold page forward and page backwards buttons
-    // Purely for styling purposes
-    let buttonDiv = document.createElement('div')
-    createNavBtnDiv = () => {
-        buttonDiv.className ='nav-btn-div'
-        body.appendChild(buttonDiv) 
-    }
-    createNavBtnDiv()
-
-    // Create previous page button
-    let backwardBtn = document.createElement('button')
-    createBackwardBtn = () => {
-        backwardBtn.className = "btn"
-        backwardBtn.id = 'backwards-btn'
-        backwardBtn.dataset.name = 'backward-btn'
-        backwardBtn.innerText = 'Previous Page'
-        // Button is disabled by default
-        backwardBtn.disabled = true
-        buttonDiv.appendChild(backwardBtn)
-    }
-    createBackwardBtn()
-    
-    // Create forward page button
-    let forwardBtn = document.createElement('button')
-    createForwardBtn = () => {
-        forwardBtn.className = "btn"
-        forwardBtn.dataset.name = 'forward-btn'
-        forwardBtn.innerText = 'Next Page'
-        buttonDiv.appendChild(forwardBtn)
-    }
-    createForwardBtn()
-
-    // Create a little text element denoting current page number
-    let pageRendered = document.createElement('p')
-    pageNumber = (current_page) => {
-        pageRendered.className = 'text'
-        pageRendered.innerText = `Page ${current_page}`
-        body.appendChild(pageRendered)
-    }
-    pageNumber(current_page)
     
     // Create the modal holding full-size image of dog
     let dialog = document.createElement('dialog');
     createModal = (photo) => {
         dialog.className = 'modal'
         document.body.appendChild(dialog);
-
+        
         // Create div to hold 'Done' button for styling
         let modalDiv = document.createElement('div')
         modalDiv.className = 'exit-btn-div'
@@ -173,6 +173,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let exitBtn = document.createElement('button')
         exitBtn.innerText = 'Done'
         exitBtn.className = 'btn' 
+        // This button has an id for styling
         exitBtn.id = 'exit-btn'
         exitBtn.dataset.name = 'exit-btn'
         modalDiv.appendChild(exitBtn)
@@ -183,7 +184,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         dialog.appendChild(fullImg)
     }
 
-    // Function to create and open model of desired dog image
+    // Function open model of desired dog image
     openModal = (photo) => {
         createModal(photo)
         dialog.showModal();
@@ -219,10 +220,3 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
     })
 })
-    
-    
- 
-
-
-// comments
-// readme 
